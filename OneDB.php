@@ -153,6 +153,27 @@ class OneDB
 	}
 
 	/**
+	 * Build where clause
+	 *
+	 * @param array $where Where conditions
+	 * @param string $query Query string
+	 */
+	private function _buildWhere(&$where, &$query)
+	{
+		if (!empty($where)) {
+			$expr = array();
+			foreach ($where as $key => $val) {
+				if ($val instanceof OneDB_Ex) {
+					$expr[] = str_replace('?', $val, $key);
+					unset($where[$key]);
+				}
+			}
+			$query .= ' WHERE ' . implode(' AND ', array_keys($where))
+				. (!empty($expr)) ? ' AND ' . implode(' AND ', $expr) : '';
+		}
+	}
+
+	/**
 	 * Bind SQL query params to PDO statement object
 	 *
 	 * @param array $data SQL query params
@@ -432,9 +453,7 @@ class OneDB
 		}
 		$query .= implode(', ', $par);
 
-		if (!empty($where)) {
-			$query .= ' WHERE ' . implode(' AND ', array_keys($where));
-		}
+		$this->_buildWhere($where, $query);
 
 		$params = array_merge(
 			array_values($data),
@@ -453,9 +472,7 @@ class OneDB
 	public function delete($table, $where = array())
 	{
 		$query = 'DELETE FROM ' . $this->btick($table);
-		if (!empty($where)) {
-			$query .= ' WHERE ' . implode(' AND ', array_keys($where));
-		}
+		$this->_buildWhere($where, $query);
 
 		$this->_prepare($query);
 		if (!empty($where)) {
