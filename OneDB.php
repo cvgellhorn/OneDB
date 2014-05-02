@@ -367,7 +367,7 @@ class OneDB
 	/**
 	 * Insert given data into database
 	 *
-	 * @param strin $table DB table name
+	 * @param string $table DB table name
 	 * @param array $data Data to insert
 	 * @return int Last insert ID
 	 */
@@ -378,7 +378,7 @@ class OneDB
 
 		foreach ($data as $key => $val) {
 			$keys[] = $this->btick($key);
-			if ($val instanceof OneDB_Expr) {
+			if ($val instanceof OneDB_Ex) {
 				$values[] = $val;
 				unset($data[$key]);
 			} else {
@@ -423,7 +423,7 @@ class OneDB
 
 		$par = array();
 		foreach ($data as $key => $val) {
-			if ($val instanceof OneDB_Expr) {
+			if ($val instanceof OneDB_Ex) {
 				$par[] = $this->btick($key) . ' = ' . $val;
 				unset($data[$key]);
 			} else {
