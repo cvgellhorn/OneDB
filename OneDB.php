@@ -163,7 +163,7 @@ class OneDB
 		if (!empty($where)) {
 			$expr = array();
 			foreach ($where as $key => $val) {
-				if ($val instanceof OneDB_Ex) {
+				if ($val instanceof OneExpr) {
 					$expr[] = str_replace('?', $val, $key);
 					unset($where[$key]);
 				}
@@ -399,7 +399,7 @@ class OneDB
 
 		foreach ($data as $key => $val) {
 			$keys[] = $this->btick($key);
-			if ($val instanceof OneDB_Ex) {
+			if ($val instanceof OneExpr) {
 				$values[] = $val;
 				unset($data[$key]);
 			} else {
@@ -444,7 +444,7 @@ class OneDB
 
 		$par = array();
 		foreach ($data as $key => $val) {
-			if ($val instanceof OneDB_Ex) {
+			if ($val instanceof OneExpr) {
 				$par[] = $this->btick($key) . ' = ' . $val;
 				unset($data[$key]);
 			} else {
@@ -507,21 +507,21 @@ class OneDB
 /**
  * OneDB database expression
  */
-class OneDB_Ex
+class OneExpr
 {
 	/**
 	 * @var string Database expression
 	 */
-	public $ex;
+	public $expr;
 
 	/**
 	 * Expression constructor
 	 *
 	 * @param string $expr Database expression
 	 */
-	public function __construct($ex)
+	public function __construct($expr)
 	{
-		$this->ex = $ex;
+		$this->expr = $expr;
 	}
 
 	/**
@@ -531,6 +531,6 @@ class OneDB_Ex
 	 */
 	public function __toString()
 	{
-		return $this->ex;
+		return $this->expr;
 	}
 }
