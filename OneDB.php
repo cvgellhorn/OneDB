@@ -437,7 +437,7 @@ class OneDB
 	 *
 	 * TODO: try binding for multiple rows
 	 */
-	public function multiInsert()
+	public function multiInsert($table, $keys, $data)
 	{}
 
 	/**
