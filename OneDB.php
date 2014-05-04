@@ -25,7 +25,7 @@ class OneDB
 	private static $_connections = array();
 
 	/**
-	 * PDO Mysql object
+	 * PDO object
 	 *
 	 * @var PDO
 	 */
