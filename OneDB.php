@@ -4,7 +4,7 @@
  * OneDB Database Framework
  *
  * Based on the DB class from SlimFit
- * https://github.com/cvgellhorn/SlimFit/blob/master/lib/App/Db.php
+ * https://github.com/cvgellhorn/SlimFit/blob/master/lib/SF/Db.php
  *
  * @author cvgellhorn
  */
