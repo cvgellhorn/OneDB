@@ -397,6 +397,7 @@ class OneDB
 				return $result->fetchAll(PDO::FETCH_ASSOC);
 			}
 		} else {
+			// No result
 			return true;
 		}
 	}
@@ -468,7 +469,6 @@ class OneDB
 			}
 		}
 		$query .= implode(', ', $par);
-
 		$this->_buildWhere($where, $query);
 
 		$params = array_merge(
