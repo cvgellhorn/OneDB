@@ -29,7 +29,7 @@ class OneDB
 	 *
 	 * @var PDO
 	 */
-	private $_pdo;
+	protected $_pdo;
 
 	/**
 	 * The driver level statement PDO
@@ -61,7 +61,7 @@ class OneDB
 	public static function getInstance($config = array())
 	{
 		if (null === self::$_instance) {
-			self::$_instance = new self($config);
+			self::$_instance = self::_create($config);
 		}
 		return self::$_instance;
 	}
@@ -76,12 +76,28 @@ class OneDB
 	public static function getConnection($name = null, $config = array())
 	{
 		if (null === $name) {
-			return new self($config);
+			return self::_create($config);
 		} else {
 			if (!isset(self::$_connections[$name])) {
-				self::$_connections[$name] = new self($config);
+				self::$_connections[$name] = self::_create($config);
 			}
 			return self::$_connections[$name];
+		}
+	}
+
+	/**
+	 * Create new OneDB connection
+	 *
+	 * @param array $config Connection configs
+	 * @return OneDB
+	 * @throws Exception
+	 */
+	private static function _create($config)
+	{
+		if (!empty($config)) {
+			return new self($config);
+		} else {
+			throw new Exception('OneDB configuration not set');
 		}
 	}
 
