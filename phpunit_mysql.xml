@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="Tests/bootstrap.php" colors="true">
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
 	<php>
 		<var name="db_database" value="OneDB_test"/>
 		<var name="db_user" value="root"/>
