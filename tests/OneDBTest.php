@@ -43,7 +43,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function tearDown()
 	{
-		$this->_db->drop('test');
+		$this->_db->drop($this->_table);
 	}
 
 	public function testGetPDO()
