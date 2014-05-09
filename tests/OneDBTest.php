@@ -16,6 +16,13 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 	 */
 	private $_db;
 
+	/**
+	 * Test DB table
+	 *
+	 * @var string
+	 */
+	private $_table = 'data';
+
 	public function setUp()
 	{
 		$this->_db = OneDB::getInstance(array(
