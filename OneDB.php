@@ -90,25 +90,27 @@ class OneDB
 	 *
 	 * @param array $config Connection configs
 	 * @return OneDB
-	 * @throws Exception
+	 * @throws OneException
 	 */
 	private static function _create($config)
 	{
 		if (!empty($config)) {
 			return new self($config);
 		} else {
-			throw new Exception('OneDB configuration not set');
+			throw new OneException('OneDB configuration not set');
 		}
 	}
 
 	/**
 	 * Create DB object and connect to database
+	 *
+	 * @throws OneException
 	 */
 	private function __construct($config)
 	{
 		try {
 			if (!extension_loaded('pdo_mysql')) {
-				throw new Exception('pdo_mysql extension is not installed');
+				throw new OneException('pdo_mysql extension is not installed');
 			}
 
 			// Prepare database configuration
@@ -132,7 +134,7 @@ class OneDB
 			// Set character encoding
 			$this->_pdo->exec('SET CHARACTER SET ' . $config['charset']);
 		} catch (PDOException $e) {
-			throw new Exception($e->getMessage(), $e->getCode());
+			throw new OneException($e->getMessage(), $e->getCode());
 		}
 	}
 
@@ -141,14 +143,14 @@ class OneDB
 	 *
 	 * @param array $config Connection configs
 	 * @return array Matched connection configs
-	 * @throws Exception
+	 * @throws OneException
 	 */
 	private function _prepareConfig($config)
 	{
 		$config = array_merge($this->_config, $config);
 		foreach ($config as $key => $val) {
 			if (null === $val) {
-				throw new Exception('Could not connect to database, missing parameter: ' . $key);
+				throw new OneException('Could not connect to database, missing parameter: ' . $key);
 			}
 		}
 
@@ -160,7 +162,6 @@ class OneDB
 	 *
 	 * @param string $sql SQL statement
 	 * @return OneDB
-	 * @throws Exception
 	 */
 	private function _prepare($sql)
 	{
@@ -185,7 +186,7 @@ class OneDB
 				}
 			}
 			$query .= ' WHERE ' . implode(' AND ', array_keys($where))
-				. (!empty($expr)) ? ' AND ' . implode(' AND ', $expr) : '';
+				. ((!empty($expr)) ? ' AND ' . implode(' AND ', $expr) : '');
 		}
 	}
 
@@ -209,14 +210,14 @@ class OneDB
 	 * Execute SQL statement
 	 *
 	 * @return PDOStatement
-	 * @throws Exception
+	 * @throws OneException
 	 */
 	private function _execute()
 	{
 		try {
 			$this->_stmt->execute();
 		} catch (PDOException $e) {
-			throw new Exception('PDO Mysql execution error: ' . $e->getMessage(), $e->getCode());
+			throw new OneException('PDO Mysql execution error: ' . $e->getMessage());
 		}
 
 		return $this->_stmt;
@@ -297,11 +298,11 @@ class OneDB
 	/**
 	 * Get last insert ID
 	 *
-	 * @return string Last insert ID
+	 * @return int Last insert ID
 	 */
 	public function lastInsertId()
 	{
-		return $this->_pdo->lastInsertId();
+		return (int) $this->_pdo->lastInsertId();
 	}
 
 	/**
@@ -367,7 +368,7 @@ class OneDB
 	 *
 	 * @param string $sql SQL statement
 	 * @return array|bool|mixed|null SQL result
-	 * @throws Exception
+	 * @throws OneException
 	 */
 	public function query($sql)
 	{
@@ -375,7 +376,7 @@ class OneDB
 			/*** @var $result PDOStatement */
 			$result = $this->_pdo->query($sql);
 		} catch (PDOException $e) {
-			throw new Exception('PDO Mysql statement error: ' . $e->getMessage(), $e->getCode());
+			throw new OneException('PDO Mysql statement error: ' . $e->getMessage(), $e->getCode());
 		}
 
 		$columnCount = $result->columnCount();
@@ -429,7 +430,7 @@ class OneDB
 			. ' VALUES (' . implode(', ', $values) . ')';
 
 		$this->_prepare($query)->_bindParams(array_values($data))->_execute();
-		return $this->_pdo->lastInsertId();
+		return $this->lastInsertId();
 	}
 
 	/**
@@ -550,3 +551,10 @@ class OneExpr
 		return $this->expr;
 	}
 }
+
+
+/**
+ * OneDB Exception class
+ */
+class OneException extends Exception
+{}
