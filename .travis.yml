@@ -9,6 +9,6 @@ env:
   - DB=mysql
 
 before_script:
-  - mysql -e 'create database OneDB_test;'
+  - mysql -e 'create database onedb_test;'
 
 script: phpunit --configuration phpunit_mysql.xml --coverage-text --debug

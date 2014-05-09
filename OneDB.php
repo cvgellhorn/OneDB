@@ -46,7 +46,7 @@ class OneDB
 	protected $_config = array(
 		'pdo_type'  => 'mysql',
 		'host'      => 'localhost',
-		'charset'   => 'utf-8',
+		'charset'   => 'utf8',
 		'database'  => null,
 		'user'      => null,
 		'password'  => null
@@ -114,8 +114,6 @@ class OneDB
 			// Prepare database configuration
 			$config = $this->_prepareConfig($config);
 
-			var_dump($config);
-
 			$dsn = array(
 				'host='     . $config['host'],
 				'dbname='   . $config['database'],
@@ -132,7 +130,7 @@ class OneDB
 			$this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			// Set character encoding
-			$this->_pdo->exec("SET CHARACTER SET utf8");
+			$this->_pdo->exec('SET CHARACTER SET ' . $config['charset']);
 		} catch (PDOException $e) {
 			throw new Exception($e->getMessage(), $e->getCode());
 		}
