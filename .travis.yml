@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 5.5
+  - 5.4
+  - 5.3
+
+env:
+  - DB=mysql
+
+before_script:
+  - mysql -e 'create database OneDB_test;'
+
+script: phpunit --configuration phpunit_mysql.xml --coverage-text
