@@ -23,7 +23,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 	 */
 	private static $_table = 'data';
 
-	public function setUpBeforeClass()
+	public static function setUpBeforeClass()
 	{
 		self::$_db = OneDB::getInstance(array(
 			'database'  => $GLOBALS['db_database'],
@@ -41,7 +41,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function tearDownAfterClass()
+	public static function tearDownAfterClass()
 	{
 		self::$_db->drop(self::$_table);
 	}
