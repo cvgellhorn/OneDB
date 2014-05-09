@@ -24,6 +24,8 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 			'password'  => $GLOBALS['db_password']
 		));
 
+		var_dump($this->_db);
+
 		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test'));
 	}
 

@@ -114,6 +114,8 @@ class OneDB
 			// Prepare database configuration
 			$config = $this->_prepareConfig($config);
 
+			var_dump($config);
+
 			$dsn = array(
 				'host='     . $config['host'],
 				'dbname='   . $config['database'],
