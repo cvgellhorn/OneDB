@@ -24,12 +24,12 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 			'password'  => $GLOBALS['db_password']
 		));
 
-		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test'));
+		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test') . ' (field VARCHAR(50) NOT NULL)');
 	}
 
 	public function tearDown()
 	{
-		$this->_db->query('DROP TABLE ' . $this->_db->btick('test'));
+		$this->_db->drop('test');
 	}
 
 	public function testGetPDO()
