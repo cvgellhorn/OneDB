@@ -1,25 +1,17 @@
 <?php
 
 /**
- * PHPUnit AutoLoader
+ * PHPUnit Autoloader
  *
  * @author cvgellhorn
  */
-class Autoloader
+function loader($class)
 {
-	/**
-	 * Class loader method
-	 *
-	 * @param Mixed $class Class name
-	 */
-	public static function load($class)
-	{
-		$file = $class . '.php';
-		if (file_exists($file)) {
-			require_once($file);
-		}
+	$file = $class . '.php';
+	if (file_exists($file)) {
+		require_once($file);
 	}
 }
 
 // Register autoloader
-spl_autoload_register(array('Autoloader', 'load'));
+spl_autoload_register('loader');
