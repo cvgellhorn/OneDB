@@ -18,7 +18,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->_db = OneDB::getInstance(array(
+		/*$this->_db = OneDB::getInstance(array(
 			'database'  => $GLOBALS['db_database'],
 			'user'      => $GLOBALS['db_user'],
 			'password'  => $GLOBALS['db_password']
@@ -26,7 +26,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 		var_dump($this->_db);
 
-		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test'));
+		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test'));*/
 	}
 
 	public function tearDown()
@@ -36,6 +36,15 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function testGetPDO()
 	{
+		$this->_db = OneDB::getInstance(array(
+			'database'  => $GLOBALS['db_database'],
+			'user'      => $GLOBALS['db_user'],
+			'password'  => $GLOBALS['db_password']
+		));
+
+		var_dump($this->_db);
+		var_dump(!extension_loaded('pdo_mysql'));
+
 		$this->assertInstanceOf('PDO', $this->_db->getPDO());
 	}
 } 
