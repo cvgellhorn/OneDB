@@ -23,5 +23,17 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 			$GLOBALS['db_user'],
 			$GLOBALS['db_password']
 		));
+
+		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test'));
+	}
+
+	public function tearDown()
+	{
+		$this->_db->query('DROP TABLE ' . $this->_db->btick('test'));
+	}
+
+	public function testGetPDO()
+	{
+		$this->assertInstanceOf('PDO', $this->_db->getPDO());
 	}
 } 
