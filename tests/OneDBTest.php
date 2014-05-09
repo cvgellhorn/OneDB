@@ -19,9 +19,9 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->_db = OneDB::getInstance(array(
-			$GLOBALS['db_database'],
-			$GLOBALS['db_user'],
-			$GLOBALS['db_password']
+			'database'  => $GLOBALS['db_database'],
+			'user'      => $GLOBALS['db_user'],
+			'password'  => $GLOBALS['db_password']
 		));
 
 		$this->_db->query('CREATE TABLE ' . $this->_db->btick('test'));
