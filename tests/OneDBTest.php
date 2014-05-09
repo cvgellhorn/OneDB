@@ -21,7 +21,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @var string
 	 */
-	private $_table = 'data';
+	private static $_table = 'data';
 
 	public function setUpBeforeClass()
 	{
@@ -34,7 +34,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 		// Init test data and also perform test on query method
 		self::$_db->query(
 			'CREATE TABLE IF NOT EXISTS '
-			. self::$_db->btick($this->_table). ' ('
+			. self::$_db->btick(self::$_table). ' ('
 			. 'id INT(9) NOT NULL PRIMARY KEY AUTO_INCREMENT,'
 			. 'name VARCHAR(50) NOT NULL'
 			. ') ENGINE = InnoDB'
@@ -43,7 +43,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function tearDownAfterClass()
 	{
-		self::$_db->drop($this->_table);
+		self::$_db->drop(self::$_table);
 	}
 
 	public function testGetPDO()
@@ -63,7 +63,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function testInsert()
 	{
-		$id = self::$_db->insert($this->_table, array(
+		$id = self::$_db->insert(self::$_table, array(
 			'name' => 'John Doe'
 		));
 
@@ -75,13 +75,13 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 		$name = 'Steve Jobs';
 
 		self::$_db->update(
-			$this->_table,
+			self::$_table,
 			array('name' => $name),
 			array('id = ?' => 1)
 		);
 
 		$result = self::$_db->fetchRow(
-			'SELECT * FROM ' . self::$_db->btick($this->_table)
+			'SELECT * FROM ' . self::$_db->btick(self::$_table)
 			. ' WHERE ' . self::$_db->btick('id') . ' = 1'
 		);
 
@@ -91,7 +91,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 	public function testFetchAll()
 	{
 		$result = self::$_db->fetchAll(
-			'SELECT * FROM ' . self::$_db->btick($this->_table)
+			'SELECT * FROM ' . self::$_db->btick(self::$_table)
 		);
 
 		$this->assertTrue(is_array($result[0]));
