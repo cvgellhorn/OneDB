@@ -43,7 +43,9 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public static function tearDownAfterClass()
 	{
-		self::$_db->drop(self::$_table);
+		self::$_db->query(
+			'DROP TABLE IF EXISTS ' . self::$_db->btick(self::$_table)
+		);
 	}
 
 	public function testGetPDO()
@@ -97,4 +99,40 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($result[0]));
 		$this->assertArrayHasKey('name', $result[0]);
 	}
-} 
+
+	public function testFetchAssoc()
+	{
+
+	}
+
+	public function testFetchRow()
+	{
+
+	}
+
+	public function testFetchOne()
+	{
+
+	}
+
+	public function testQuery()
+	{
+		// insert, update, delete
+		// all fetching modes
+	}
+
+	public function testDelete()
+	{
+
+	}
+
+	public function testTruncte()
+	{
+
+	}
+
+	public function testDrop()
+	{
+		self::$_db->drop(self::$_table);
+	}
+}
