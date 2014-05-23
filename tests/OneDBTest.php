@@ -70,6 +70,13 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 		));
 
 		$this->assertTrue(is_int($id) && $id > 0);
+
+
+		$id = self::$_db->insert(self::$_table, array(
+			'name' => 'Skywalker'
+		));
+
+		$this->assertTrue(is_int($id) && $id > 0);
 	}
 
 	public function testUpdate()
@@ -102,17 +109,37 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function testFetchAssoc()
 	{
+		$result = self::$_db->fetchAssoc(
+			'SELECT * FROM ' . self::$_db->btick(self::$_table)
+		);
 
+		$this->assertTrue(count($result) > 0);
+		foreach ($result as $id => $row) {
+			// Compare int with string
+			$this->assertTrue($id == $row['id']);
+		}
 	}
 
 	public function testFetchRow()
 	{
+		$result = self::$_db->fetchRow(
+			'SELECT * FROM ' . self::$_db->btick(self::$_table)
+			. ' WHERE ' . self::$_db->btick('id') . ' = 1'
+		);
 
+		$this->assertArrayHasKey('name', $result);
 	}
 
 	public function testFetchOne()
 	{
+		$name = 'Steve Jobs';
 
+		$result = self::$_db->fetchOne(
+			'SELECT ' . self::$_db->btick('name') . ' FROM ' . self::$_db->btick(self::$_table)
+			. ' WHERE ' . self::$_db->btick('id') . ' = 1'
+		);
+
+		$this->assertEquals($name, $result);
 	}
 
 	public function testQuery()
@@ -123,7 +150,17 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public function testDelete()
 	{
+		self::$_db->delete(
+			self::$_table,
+			array('name = ?' => 'Skywalker')
+		);
 
+		$result = self::$_db->fetchOne(
+			'SELECT ' . self::$_db->btick('name') . ' FROM ' . self::$_db->btick(self::$_table)
+			. ' WHERE ' . self::$_db->btick('id') . ' = 2'
+		);
+
+		$this->assertNull($result);
 	}
 
 	public function testTruncte()
