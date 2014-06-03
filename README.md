@@ -16,7 +16,7 @@ $database = OneDB::load(array(
 ));
 
 // After initializing, you can always get the current instance with
-$database = OneDB::getInstance();
+$database = OneDB::load();
 
 
 // Or create a new connection by name (for multiple connections)
