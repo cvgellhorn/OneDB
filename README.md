@@ -15,11 +15,11 @@ $database = OneDB::getInstance(array(
     'password'  => '[database_password]'
 ));
 
-//Use it later again
+// Get it again later
 $database = OneDB::getInstance();
 
 
-//Or create a new connection by name (for multiple connections)
+// Or create a new connection by name (for multiple connections)
 $database = OneDB::getConnection('[connection_name]', array(
     'database'  => '[database_name]',
     'user'      => '[database_username]',
