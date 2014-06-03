@@ -9,13 +9,13 @@ A lightweight/single file PHP database framework
 require_once 'OneDB.php';
 
 // Create OneDB instance and have fun
-$database = OneDB::getInstance(array(
+$database = OneDB::load(array(
     'database'  => '[database_name]',
     'user'      => '[database_username]',
     'password'  => '[database_password]'
 ));
 
-// Get it again later
+// After initializing, you can always get the current instance with
 $database = OneDB::getInstance();
 
 
