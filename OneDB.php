@@ -58,7 +58,7 @@ class OneDB
 	 * @param array $config Connection configs
 	 * @return OneDB
 	 */
-	public static function getInstance($config = array())
+	public static function load($config = array())
 	{
 		if (null === self::$_instance) {
 			self::$_instance = self::_create($config);
