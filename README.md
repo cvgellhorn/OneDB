@@ -29,3 +29,15 @@ $database = OneDB::getConnection('[connection_name]', array(
 // Reload connection again later
 $databaseWrite = OneDB::getConnection('[connection_name]');
 ```
+
+##Basic Usage
+###Insert
+Insert new records in table
+
+```php
+$database->insert('user', array(
+	'name'  => 'Foo Bar',
+    'email' => 'foo@bar.com',
+    'tel'   => 12345678
+));
+```
