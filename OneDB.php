@@ -113,14 +113,8 @@ class OneDB
 			// Prepare database configuration
 			$config = $this->_prepareConfig($config);
 
-			$dsn = array(
-				'host='     . $config['host'],
-				'dbname='   . $config['database'],
-				'charset='  . $config['charset']
-			);
-
 			$this->_pdo = new PDO(
-				$config['pdo_type'] . ':' . implode(';', $dsn),
+				$config['pdo_type'] . ':' . $config['dsn'],
 				$config['user'],
 				$config['password']
 			);
@@ -151,6 +145,17 @@ class OneDB
 			}
 		}
 
+		$dsn = array(
+			'host='     . $config['host'],
+			'dbname='   . $config['database'],
+			'charset='  . $config['charset']
+		);
+
+		if (isset($config['port'])) {
+			$dsn[] = 'port=' . $config['port'];
+		}
+
+		$config['dsn'] = implode(';', $dsn);
 		return $config;
 	}
 
