@@ -43,7 +43,7 @@ $database = OneDB::load(array(
 ));
 ```
 
-Default values
+Default settings
 ```php
 'host'    => 'localhost'
 'port'    => '[default_mysql_port]'
@@ -52,7 +52,7 @@ Default values
 
 ##Basic Usage
 ###Insert
-Insert new records in table, always returns lastInsertId.
+Insert new records in table, returns lastInsertId.
 
 ```php
 $lastInsertId = $database->insert('user', array(
