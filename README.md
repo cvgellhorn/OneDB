@@ -30,12 +30,32 @@ $database = OneDB::getConnection('[connection_name]', array(
 $databaseWrite = OneDB::getConnection('[connection_name]');
 ```
 
+##Configuration
+You can also set the database host, port and charset.
+```php
+$database = OneDB::load(array(
+	'host'      => 'sql.mydomain.com',
+    'port'      => '3307',
+    'charset'   => 'utf16',
+    'database'  => 'application',
+    'user'      => 'root',
+    'password'  => 'admin123#'
+));
+```
+
+Default values
+```
+'host'    => 'localhost',
+'port'    => '[default_mysql_port]'
+'charset' => 'utf8',
+```
+
 ##Basic Usage
 ###Insert
-Insert new records in table
+Insert new records in table, always returns lastInsertId.
 
 ```php
-$database->insert('user', array(
+$lastInsertId = $database->insert('user', array(
 	'name'  => 'Foo Bar',
     'email' => 'foo@bar.com',
     'tel'   => 12345678
