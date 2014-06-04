@@ -3,7 +3,16 @@ OneDB [![Build Status](https://travis-ci.org/cvgellhorn/OneDB.svg?branch=master)
 
 > A lightweight/single file PHP database framework
 
-#Get started
+##Overview
+OneDB is using the PDO extension and is based on three classes:
+
+* <b>OneDB</b> - Main database framework
+* <b>OneExpr</b> - Database expression
+* <b>OneException</b> - Exception
+
+It's also very lightweight, only around 11 kb and all packed in a single PHP file.
+
+##Getting started
 ```php
 // Include OneDB
 require_once 'OneDB.php';
