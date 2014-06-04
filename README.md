@@ -44,10 +44,10 @@ $database = OneDB::load(array(
 ```
 
 Default values
-```
-'host'    => 'localhost',
+```php
+'host'    => 'localhost'
 'port'    => '[default_mysql_port]'
-'charset' => 'utf8',
+'charset' => 'utf8'
 ```
 
 ##Basic Usage
