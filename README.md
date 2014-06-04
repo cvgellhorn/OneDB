@@ -65,8 +65,8 @@ Insert new records in table, returns lastInsertId.
 
 ```php
 $lastInsertId = $database->insert('user', array(
-	'name'  => 'Foo Bar',
-    'email' => 'foo@bar.com',
+	'name'  => 'John Doe',
+    'email' => 'john@doe.com',
     'tel'   => 12345678
 ));
 ```
