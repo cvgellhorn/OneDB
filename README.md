@@ -10,9 +10,9 @@ require_once 'OneDB.php';
 
 // Create OneDB instance and have fun
 $database = OneDB::load(array(
-    'database'  => '[database_name]',
-    'user'      => '[database_username]',
-    'password'  => '[database_password]'
+    'database'  => 'application',
+    'user'      => 'root',
+    'password'  => 'admin123#'
 ));
 
 // After initializing, you can always get the current instance with
@@ -20,14 +20,14 @@ $database = OneDB::load();
 
 
 // Or create a new connection by name (for multiple connections)
-$database = OneDB::getConnection('[connection_name]', array(
-    'database'  => '[database_name]',
-    'user'      => '[database_username]',
-    'password'  => '[database_password]'
+$dbWrite = OneDB::getConnection('write', array(
+    'database'  => 'application',
+    'user'      => 'root',
+    'password'  => 'admin123#'
 ));
 
 // Reload connection again later
-$databaseWrite = OneDB::getConnection('[connection_name]');
+$dbWrite = OneDB::getConnection('write');
 ```
 
 ##Configuration
