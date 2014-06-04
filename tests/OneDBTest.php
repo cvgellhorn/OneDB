@@ -25,7 +25,7 @@ class OneDBTest extends PHPUnit_Framework_TestCase
 
 	public static function setUpBeforeClass()
 	{
-		self::$_db = OneDB::getInstance(array(
+		self::$_db = OneDB::load(array(
 			'database'  => $GLOBALS['db_database'],
 			'user'      => $GLOBALS['db_user'],
 			'password'  => $GLOBALS['db_password']

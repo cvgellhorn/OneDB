@@ -3,9 +3,6 @@
 /**
  * OneDB Database Framework
  *
- * Based on the DB class from SlimFit
- * https://github.com/cvgellhorn/SlimFit/blob/master/lib/SF/Db.php
- *
  * @author cvgellhorn
  */
 class OneDB
@@ -58,7 +55,7 @@ class OneDB
 	 * @param array $config Connection configs
 	 * @return OneDB
 	 */
-	public static function getInstance($config = array())
+	public static function load($config = array())
 	{
 		if (null === self::$_instance) {
 			self::$_instance = self::_create($config);
@@ -116,14 +113,8 @@ class OneDB
 			// Prepare database configuration
 			$config = $this->_prepareConfig($config);
 
-			$dsn = array(
-				'host='     . $config['host'],
-				'dbname='   . $config['database'],
-				'charset='  . $config['charset']
-			);
-
 			$this->_pdo = new PDO(
-				$config['pdo_type'] . ':' . implode(';', $dsn),
+				$config['pdo_type'] . ':' . $config['dsn'],
 				$config['user'],
 				$config['password']
 			);
@@ -154,6 +145,17 @@ class OneDB
 			}
 		}
 
+		$dsn = array(
+			'host='     . $config['host'],
+			'dbname='   . $config['database'],
+			'charset='  . $config['charset']
+		);
+
+		if (isset($config['port'])) {
+			$dsn[] = 'port=' . $config['port'];
+		}
+
+		$config['dsn'] = implode(';', $dsn);
 		return $config;
 	}
 
