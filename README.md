@@ -64,9 +64,52 @@ Default settings
 Insert new records in table, returns lastInsertId.
 
 ```php
+insert($table : string, $data : array)
+```
+
+Example:
+```php
 $lastInsertId = $database->insert('user', array(
 	'name'  => 'John Doe',
     'email' => 'john@doe.com',
     'tel'   => 12345678
 ));
 ```
+
+###Update
+Edit data in table. You can use any given operator in the WHERE clause to filter the records. The ? represents the placeholder for the given param.
+
+```php
+update($table : string, $data : array, [$where : array])
+```
+
+Example:
+```php
+$database->update(
+	'user',
+    array(
+		'name'   => 'John Smith',
+    	'email'  => 'john@smith.com',
+    	'tel'    => 87654321
+    ),
+    array(
+    	'id = ?' => 23
+    )
+);
+```
+
+###Delete
+Remove data from table. Just as update, the ? represents the placeholder for the given param.
+
+```php
+delete($table : string, [$where : array])
+```
+
+Example:
+```php
+$database->delete('user', array(
+	'id = ?' => 23
+));
+```
+
+###Work in progress...
