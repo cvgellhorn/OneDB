@@ -36,6 +36,13 @@ class OneDB
 	protected $_stmt;
 
 	/**
+	 * Debug mode
+	 *
+	 * @var bool
+	 */
+	protected $_debugMode = false;
+
+	/**
 	 * Default DB configuration
 	 *
 	 * @var array
@@ -200,6 +207,8 @@ class OneDB
 	 */
 	private function _bindParams($data)
 	{
+		if ($this->_debugMode) $this->dump(print_r($data, true));
+
 		$count = count($data);
 		for ($i = 0; $i < $count; $i++) {
 			$this->_stmt->bindParam($i + 1, $data[$i]);
@@ -217,6 +226,8 @@ class OneDB
 	private function _execute()
 	{
 		try {
+			if ($this->_debugMode) $this->dump($this->_stmt->queryString);
+
 			$this->_stmt->execute();
 		} catch (PDOException $e) {
 			throw new OneException('PDO Mysql execution error: ' . $e->getMessage());
@@ -255,6 +266,36 @@ class OneDB
 	public function btick($val)
 	{
 		return "`$val`";
+	}
+
+	/**
+	 * Set debug mode
+	 *
+	 * @param bool $state Debug mode state
+	 * @return $this
+	 */
+	public function debug($state = true)
+	{
+		$this->_debugMode = $state;
+		return $this;
+	}
+
+	/**
+	 * Debug dump
+	 *
+	 * @param mixed $val Value to dump
+	 */
+	public function dump($val)
+	{
+		$style = '
+			border: 2px solid #d35400;
+			border-radius: 3px;
+			background-color: #e67e22;
+			margin: 5px 0 5px 0;
+			color: #ffffff;
+			padding: 5px;';
+
+		echo '<div style="' . $style . '"><pre>' . $val . '</pre></div>';
 	}
 
 	/**
