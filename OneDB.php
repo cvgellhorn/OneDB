@@ -325,18 +325,17 @@ class OneDB
 	 * @param string $key Optional | array key
 	 * @return array SQL result
 	 */
-	public function fetchAssoc($sql, $key = 'id')
+	public function fetchAssoc($sql, $key = null)
 	{
 		// Raw result data
 		$data = $this->_prepare($sql)->_execute()->fetchAll(PDO::FETCH_ASSOC);
 
 		$result = array();
-		if (!empty($data) && isset($data[0][$key])) {
+		if (!empty($data)) {
+			$key = ($key && isset($data[0][$key])) ? $key : key($data[0]);
 			foreach ($data as $d) {
 				$result[$d[$key]] = $d;
 			}
-		} else {
-			$result = $data;
 		}
 
 		return $result;
@@ -519,6 +518,17 @@ class OneDB
 	public function drop($table)
 	{
 		$this->_prepare('DROP TABLE ' . $this->btick($table))->_execute();
+	}
+
+	/**
+	 * Describe database table
+	 *
+	 * @param string $table DB table name
+	 * @return array Table structure
+	 */
+	public function describe($table)
+	{
+		return $this->fetchAssoc('DESCRIBE ' . $this->btick($table));
 	}
 }
 
