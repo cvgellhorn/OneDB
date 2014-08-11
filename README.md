@@ -10,7 +10,7 @@ OneDB is using the PDO extension and is based on three classes:
 * <b>OneExpr</b> - Database expression
 * <b>OneException</b> - Exception
 
-All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 13 kb and all packed in a single PHP file.
+All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 12 kb and all packed in a single PHP file.
 
 ##Getting started
 ```php
