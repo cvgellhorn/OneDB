@@ -483,10 +483,30 @@ class OneDB
 	/**
 	 * Do a multi insert
 	 *
-	 * TODO: try binding for multiple rows
+	 * @param string $table DB table name
+	 * @param array $keys DB table columns
+	 * @param array $data Data to insert
 	 */
 	public function multiInsert($table, $keys, $data)
-	{}
+	{
+		foreach ($keys as &$key) {
+			$key = $this->btick($key);
+		}
+
+		$values = array();
+		foreach ($data as $vals) {
+			foreach ($vals as &$val) {
+				$val = $this->quote($val);
+			}
+			$values[] = '(' . implode(',', $vals) . ')';
+		}
+
+		$query = 'INSERT INTO ' . $this->btick($table)
+			. ' (' . implode(',', $keys) . ')'
+			. ' VALUES ' . implode(',', $values);
+
+		$this->_prepare($query)->_execute();
+	}
 
 	/**
 	 * ON DUPLICATE KEY UPDATE
