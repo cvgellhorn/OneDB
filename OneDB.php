@@ -36,7 +36,7 @@ class OneDB
 	protected $_stmt;
 
 	/**
-	 * Debug mode
+	 * Debug mode state
 	 *
 	 * @var bool
 	 */
@@ -54,6 +54,20 @@ class OneDB
 		'database'  => null,
 		'user'      => null,
 		'password'  => null
+	);
+
+	/**
+	 * Debug style
+	 *
+	 * @var array
+	 */
+	public $debugStyle = array(
+		'border: 2px solid #d35400',
+		'border-radius: 3px',
+		'background-color: #e67e22',
+		'margin: 5px 0 5px 0',
+		'color: #ffffff',
+		'padding: 5px'
 	);
 
 	/**
@@ -227,7 +241,6 @@ class OneDB
 	{
 		try {
 			if ($this->_debugMode) $this->dump($this->_stmt->queryString);
-
 			$this->_stmt->execute();
 		} catch (PDOException $e) {
 			throw new OneException('PDO Mysql execution error: ' . $e->getMessage());
@@ -287,15 +300,7 @@ class OneDB
 	 */
 	public function dump($val)
 	{
-		$style = '
-			border: 2px solid #d35400;
-			border-radius: 3px;
-			background-color: #e67e22;
-			margin: 5px 0 5px 0;
-			color: #ffffff;
-			padding: 5px;';
-
-		echo '<div style="' . $style . '"><pre>' . $val . '</pre></div>';
+		echo '<div style="' . implode(';', $this->debugStyle) . '"><pre>' . $val . '</pre></div>';
 	}
 
 	/**
