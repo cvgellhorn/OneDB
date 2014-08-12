@@ -115,7 +115,7 @@ class OneDB
 		if (!empty($config)) {
 			return new self($config);
 		} else {
-			throw new OneException('OneDB configuration not set');
+			throw new OneException('OneDB configuration is not set');
 		}
 	}
 
@@ -243,7 +243,7 @@ class OneDB
 			if ($this->_debugMode) $this->dump($this->_stmt->queryString);
 			$this->_stmt->execute();
 		} catch (PDOException $e) {
-			throw new OneException('PDO Mysql execution error: ' . $e->getMessage());
+			throw new OneException('PDO Mysql execution error: ' . $e->getMessage(), $e->getCode());
 		}
 
 		return $this->_stmt;
@@ -284,12 +284,12 @@ class OneDB
 	/**
 	 * Set debug mode
 	 *
-	 * @param bool $state Debug mode state
+	 * @param bool $status Debug mode status
 	 * @return $this
 	 */
-	public function debug($state = true)
+	public function debug($status = true)
 	{
-		$this->_debugMode = $state;
+		$this->_debugMode = $status;
 		return $this;
 	}
 
@@ -461,7 +461,6 @@ class OneDB
 	{
 		$keys = array();
 		$values = array();
-
 		foreach ($data as $key => $val) {
 			$keys[] = $this->btick($key);
 			if ($val instanceof OneExpr) {
@@ -509,12 +508,40 @@ class OneDB
 	}
 
 	/**
-	 * ON DUPLICATE KEY UPDATE
+	 * Update data if exist, otherwise insert new data
 	 *
-	 * TODO: build on duplicate key update method
+	 * @param string $table DB table name
+	 * @param array $data Data to insert or update
+	 * @return int
 	 */
 	public function save($table, $data)
-	{}
+	{
+		$keys = array();
+		$values = array();
+		$updateVals = array();
+
+		foreach ($data as $key => $val) {
+			$keys[] = $field = $this->btick($key);
+			if ($val instanceof OneExpr) {
+				$values[] = $val;
+				$updateVals[] = $field . '=' . $val;
+				unset($data[$key]);
+			} else {
+				$values[] = '?';
+				$updateVals[] = $field . '=?';
+			}
+		}
+
+		$query = 'INSERT INTO ' . $this->btick($table)
+			. ' (' . implode(', ', $keys) . ')'
+			. ' VALUES (' . implode(', ', $values) . ')'
+			. ' ON DUPLICATE KEY UPDATE ' . implode(',', $updateVals);
+
+		$vals = array_values($data);
+		$this->_prepare($query)->_bindParams(array_merge($vals, $vals))->_execute();
+
+		return $this->lastInsertId();
+	}
 
 	/**
 	 * Update data by given condition
@@ -525,17 +552,17 @@ class OneDB
 	 */
 	public function update($table, $data, $where = array())
 	{
-		$par = array();
+		$values = array();
 		foreach ($data as $key => $val) {
 			if ($val instanceof OneExpr) {
-				$par[] = $this->btick($key) . ' = ' . $val;
+				$values[] = $this->btick($key) . ' = ' . $val;
 				unset($data[$key]);
 			} else {
-				$par[] = $this->btick($key) . ' = ?';
+				$values[] = $this->btick($key) . ' = ?';
 			}
 		}
 
-		$query = 'UPDATE ' . $this->btick($table) . ' SET ' . implode(', ', $par);
+		$query = 'UPDATE ' . $this->btick($table) . ' SET ' . implode(', ', $values);
 		$this->_buildWhere($where, $query);
 
 		$params = array_merge(
