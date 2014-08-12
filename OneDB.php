@@ -525,8 +525,6 @@ class OneDB
 	 */
 	public function update($table, $data, $where = array())
 	{
-		$query = 'UPDATE ' . $this->btick($table) . ' SET ';
-
 		$par = array();
 		foreach ($data as $key => $val) {
 			if ($val instanceof OneExpr) {
@@ -536,7 +534,8 @@ class OneDB
 				$par[] = $this->btick($key) . ' = ?';
 			}
 		}
-		$query .= implode(', ', $par);
+
+		$query = 'UPDATE ' . $this->btick($table) . ' SET ' . implode(', ', $par);
 		$this->_buildWhere($where, $query);
 
 		$params = array_merge(
