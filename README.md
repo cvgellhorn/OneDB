@@ -61,7 +61,7 @@ Default settings
 
 ##Basic Usage
 ###Insert
-Insert new records in table, returns lastInsertId.
+Insert new records in table, returns LAST_INSERT_ID.
 
 ```php
 insert($table : string, $data : array)
