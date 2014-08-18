@@ -243,7 +243,7 @@ try {
 	));
 
     // Check transaction status, returns bool
-    $status = $db->inTransaction();
+    $status = $database->inTransaction();
 
 	// Commit transaction if no error occurred
 	$database->commit();
