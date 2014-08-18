@@ -232,13 +232,13 @@ Run a database transaction.
 ```php
 try {
 	// Start transaction
-	$db->beginTransaction();
+	$database->beginTransaction();
 
 	// Do stuff
-	$db->insert('user', array(
+	$database->insert('user', array(
 		'name' => 'Skywalker'
 	));
-	$db->delete('user', array(
+	$database->delete('user', array(
 		'id = ?' => 3
 	));
 
@@ -246,10 +246,10 @@ try {
     $status = $db->inTransaction();
 
 	// Commit transaction if no error occurred
-	$db->commit();
+	$database->commit();
 } catch (OneException $e) {
 	// Rollback on error
-	$db->rollBack();
+	$database->rollBack();
 }
 ```
 
