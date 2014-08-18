@@ -12,6 +12,7 @@ OneDB is using the PDO extension and is based on three classes:
 
 All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 13 kb and all packed in a single PHP file.
 
+
 ##Getting started
 ```php
 // Include OneDB
@@ -39,6 +40,7 @@ $dbWrite = OneDB::getConnection('write', array(
 $dbWrite = OneDB::getConnection('write');
 ```
 
+
 ##Configuration
 You can also set the database host, port and charset.
 ```php
@@ -58,6 +60,7 @@ Default settings
 'port'    => '[default_mysql_port]'
 'charset' => 'utf8'
 ```
+
 
 ##Basic Usage
 ###Insert
@@ -112,4 +115,79 @@ $database->delete('user', array(
 ));
 ```
 
-###Work in progress...
+###Fetch All
+Retrieve all the rows of the result set in one step as an array.
+```php
+fetchAll($sql : string)
+```
+
+Example:
+```php
+$database->fetchAll('SELECT * FROM `user`');
+```
+
+###Fetch Assoc
+Retrieve all the rows of the result set in one step as an array, using the first column or the given key as the array index.
+```php
+fetchAssoc($sql : string, [$key : string])
+```
+
+Example:
+```php
+$database->fetchAssoc('SELECT * FROM `user`', 'username');
+```
+
+###Fetch Row
+Retrieve the single row of the result set as an array.
+```php
+fetchRow($sql : string)
+```
+
+Example:
+```php
+$database->fetchRow('SELECT * FROM `user` WHERE `id` = 1');
+```
+
+###Fetch One
+Retrieve a single result value.
+```php
+fetchOne($sql : string)
+```
+
+Example:
+```php
+$database->fetchOne('SELECT `username` FROM `user` WHERE `id` = 1');
+```
+
+###Query
+Send a SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.
+```php
+query($sql : string)
+```
+
+Example:
+```php
+$database->query('DELETE FROM `user` WHERE `id` = 1');
+
+// With result
+$result = $database->query('SELECT * FROM `user`');
+```
+
+
+##Debug
+You can activate the debug mode by using the following statement. It will show you all executed SQL queries and the parameter bindings.
+```php
+$database->debug();
+```
+
+It's also possible to change the debug style with the debugStyle attribute.
+```php
+$database->debugStyle = array(
+	'border: 2px solid #d35400',
+	'border-radius: 3px',
+	'background-color: #e67e22',
+	'margin: 5px 0 5px 0',
+	'color: #ffffff',
+	'padding: 5px'
+);
+```
