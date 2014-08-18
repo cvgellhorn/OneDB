@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>OneDB by cvgellhorn</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>OneDB</h1>
+        <h2>A lightweight/single file PHP database framework</h2>
+        <a href="https://github.com/cvgellhorn/OneDB" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="onedb-" class="anchor" href="#onedb-"><span class="octicon octicon-link"></span></a>OneDB <a href="https://travis-ci.org/cvgellhorn/OneDB"><img src="https://travis-ci.org/cvgellhorn/OneDB.svg?branch=master" alt="Build Status"></a>
+</h1>
+
+<blockquote>
+<p>A lightweight/single file PHP database framework</p>
+</blockquote>
+
+<h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>OneDB is using the PDO extension and is based on three classes:</p>
+
+<ul>
+<li>
+<b>OneDB</b> - Main database framework</li>
+<li>
+<b>OneExpr</b> - Database expression</li>
+<li>
+<b>OneException</b> - Exception</li>
+</ul><p>All tests are based on the <a href="http://phpunit.de/">PHPUnit</a> testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 13 kb and all packed in a single PHP file.</p>
+
+<h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h2>
+
+<div class="highlight highlight-php"><pre><span class="c1">// Include OneDB</span>
+<span class="k">require_once</span> <span class="s1">'OneDB.php'</span><span class="p">;</span>
+
+<span class="c1">// Create OneDB instance and have fun</span>
+<span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">'database'</span>  <span class="o">=&gt;</span> <span class="s1">'application'</span><span class="p">,</span>
+    <span class="s1">'user'</span>      <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
+    <span class="s1">'password'</span>  <span class="o">=&gt;</span> <span class="s1">'admin123#'</span>
+<span class="p">));</span>
+
+<span class="c1">// After initializing, you can always get the current instance with</span>
+<span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">();</span>
+
+
+<span class="c1">// Or create a new connection by name (for multiple connections)</span>
+<span class="nv">$dbWrite</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">getConnection</span><span class="p">(</span><span class="s1">'write'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'database'</span>  <span class="o">=&gt;</span> <span class="s1">'application'</span><span class="p">,</span>
+    <span class="s1">'user'</span>      <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
+    <span class="s1">'password'</span>  <span class="o">=&gt;</span> <span class="s1">'admin123#'</span>
+<span class="p">));</span>
+
+<span class="c1">// Reload connection again later</span>
+<span class="nv">$dbWrite</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">getConnection</span><span class="p">(</span><span class="s1">'write'</span><span class="p">);</span>
+</pre></div>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>You can also set the database host, port and charset.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">'host'</span>      <span class="o">=&gt;</span> <span class="s1">'sql.mydomain.com'</span><span class="p">,</span>
+    <span class="s1">'port'</span>      <span class="o">=&gt;</span> <span class="s1">'3307'</span><span class="p">,</span>
+    <span class="s1">'charset'</span>   <span class="o">=&gt;</span> <span class="s1">'utf16'</span><span class="p">,</span>
+    <span class="s1">'database'</span>  <span class="o">=&gt;</span> <span class="s1">'application'</span><span class="p">,</span>
+    <span class="s1">'user'</span>      <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
+    <span class="s1">'password'</span>  <span class="o">=&gt;</span> <span class="s1">'admin123#'</span>
+<span class="p">));</span>
+</pre></div>
+
+<p>Default settings</p>
+
+<div class="highlight highlight-php"><pre><span class="s1">'host'</span>    <span class="o">=&gt;</span> <span class="s1">'localhost'</span>
+<span class="s1">'port'</span>    <span class="o">=&gt;</span> <span class="s1">'[default_mysql_port]'</span>
+<span class="s1">'charset'</span> <span class="o">=&gt;</span> <span class="s1">'utf8'</span>
+</pre></div>
+
+<h2>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage</h2>
+
+<h3>
+<a name="insert" class="anchor" href="#insert"><span class="octicon octicon-link"></span></a>Insert</h3>
+
+<p>Insert new records in table, returns LAST_INSERT_ID.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">insert</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="nv">$data</span> <span class="o">:</span> <span class="k">array</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$lastInsertId</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'name'</span>  <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
+    <span class="s1">'tel'</span>   <span class="o">=&gt;</span> <span class="mi">12345678</span>
+<span class="p">));</span>
+</pre></div>
+
+<h3>
+<a name="update" class="anchor" href="#update"><span class="octicon octicon-link"></span></a>Update</h3>
+
+<p>Edit data in table. You can use any given operator in the WHERE clause to filter the records. The ? represents the placeholder for the given param.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">update</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="nv">$data</span> <span class="o">:</span> <span class="k">array</span><span class="p">,</span> <span class="p">[</span><span class="nv">$where</span> <span class="o">:</span> <span class="k">array</span><span class="p">])</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span>
+    <span class="s1">'user'</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'name'</span>   <span class="o">=&gt;</span> <span class="s1">'John Smith'</span><span class="p">,</span>
+        <span class="s1">'email'</span>  <span class="o">=&gt;</span> <span class="s1">'john@smith.com'</span><span class="p">,</span>
+        <span class="s1">'tel'</span>    <span class="o">=&gt;</span> <span class="mi">87654321</span>
+    <span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">23</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="delete" class="anchor" href="#delete"><span class="octicon octicon-link"></span></a>Delete</h3>
+
+<p>Remove data from table. Just as update, the ? represents the placeholder for the given param.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">delete</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="p">[</span><span class="nv">$where</span> <span class="o">:</span> <span class="k">array</span><span class="p">])</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">23</span>
+<span class="p">));</span>
+</pre></div>
+
+<h3>
+<a name="fetch-all" class="anchor" href="#fetch-all"><span class="octicon octicon-link"></span></a>Fetch All</h3>
+
+<p>Retrieve all the rows of the result set in one step as an array.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">fetchAll</span><span class="p">(</span><span class="nv">$sql</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">(</span><span class="s1">'SELECT * FROM `user`'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="fetch-assoc" class="anchor" href="#fetch-assoc"><span class="octicon octicon-link"></span></a>Fetch Assoc</h3>
+
+<p>Retrieve all the rows of the result set in one step as an array, using the first column or the given key as the array index.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">fetchAssoc</span><span class="p">(</span><span class="nv">$sql</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="p">[</span><span class="nv">$key</span> <span class="o">:</span> <span class="nx">string</span><span class="p">])</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">fetchAssoc</span><span class="p">(</span><span class="s1">'SELECT * FROM `user`'</span><span class="p">,</span> <span class="s1">'username'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="fetch-row" class="anchor" href="#fetch-row"><span class="octicon octicon-link"></span></a>Fetch Row</h3>
+
+<p>Retrieve a single row of the result set as an array.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">fetchRow</span><span class="p">(</span><span class="nv">$sql</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">fetchRow</span><span class="p">(</span><span class="s1">'SELECT * FROM `user` WHERE `id` = 1'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="fetch-one" class="anchor" href="#fetch-one"><span class="octicon octicon-link"></span></a>Fetch One</h3>
+
+<p>Retrieve a single result value.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">fetchOne</span><span class="p">(</span><span class="nv">$sql</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">fetchOne</span><span class="p">(</span><span class="s1">'SELECT `username` FROM `user` WHERE `id` = 1'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="query" class="anchor" href="#query"><span class="octicon octicon-link"></span></a>Query</h3>
+
+<p>Send a SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">query</span><span class="p">(</span><span class="nv">$sql</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="s1">'DELETE FROM `user` WHERE `id` = 1'</span><span class="p">);</span>
+
+<span class="c1">// With result</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="s1">'SELECT * FROM `user`'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="last-insert-id" class="anchor" href="#last-insert-id"><span class="octicon octicon-link"></span></a>Last Insert ID</h3>
+
+<p>Returns the ID of the last inserted row.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">lastInsertId</span><span class="p">()</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">lastInsertId</span><span class="p">();</span>
+</pre></div>
+
+<h2>
+<a name="advanced-usage" class="anchor" href="#advanced-usage"><span class="octicon octicon-link"></span></a>Advanced Usage</h2>
+
+<h3>
+<a name="expression" class="anchor" href="#expression"><span class="octicon octicon-link"></span></a>Expression</h3>
+
+<p>You can also use database expressions in your statement, by using the OneExpr object.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$lastInsertId</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'name'</span>    <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
+    <span class="s1">'email'</span>   <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
+    <span class="s1">'tel'</span>     <span class="o">=&gt;</span> <span class="mi">12345678</span><span class="p">,</span>
+    <span class="s1">'created'</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">OneExpr</span><span class="p">(</span><span class="s1">'NOW()'</span><span class="p">)</span>
+<span class="p">));</span>
+</pre></div>
+
+<h3>
+<a name="truncate" class="anchor" href="#truncate"><span class="octicon octicon-link"></span></a>Truncate</h3>
+
+<p>Truncate database table.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">truncate</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">truncate</span><span class="p">(</span><span class="s1">'user'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="drop" class="anchor" href="#drop"><span class="octicon octicon-link"></span></a>Drop</h3>
+
+<p>Drop database table.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">drop</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">drop</span><span class="p">(</span><span class="s1">'user'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="describe" class="anchor" href="#describe"><span class="octicon octicon-link"></span></a>Describe</h3>
+
+<p>Describe database table, returns the table attributes as array keys.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">describe</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">describe</span><span class="p">(</span><span class="s1">'user'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="transaction" class="anchor" href="#transaction"><span class="octicon octicon-link"></span></a>Transaction</h3>
+
+<p>Run a database transaction.</p>
+
+<div class="highlight highlight-php"><pre><span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// Start transaction</span>
+    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">beginTransaction</span><span class="p">();</span>
+
+    <span class="c1">// Do stuff</span>
+    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Skywalker'</span>
+    <span class="p">));</span>
+    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">3</span>
+    <span class="p">));</span>
+
+    <span class="c1">// Check transaction status, returns bool</span>
+    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">inTransaction</span><span class="p">();</span>
+
+    <span class="c1">// Commit transaction if no error occurred</span>
+    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">commit</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">OneException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Rollback on error</span>
+    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">rollBack</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>
+<a name="quote" class="anchor" href="#quote"><span class="octicon octicon-link"></span></a>Quote</h3>
+
+<p>Add quotes to the given value.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">quote</span><span class="p">(</span><span class="nv">$val</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">quote</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="backtick" class="anchor" href="#backtick"><span class="octicon octicon-link"></span></a>Backtick</h3>
+
+<p>Add backticks to the given field name.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">btick</span><span class="p">(</span><span class="nv">$val</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">btick</span><span class="p">(</span><span class="s1">'user'</span><span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="pdo" class="anchor" href="#pdo"><span class="octicon octicon-link"></span></a>PDO</h3>
+
+<p>Returns the current PDO object.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">getPDO</span><span class="p">()</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">getPDO</span><span class="p">();</span>
+</pre></div>
+
+<h2>
+<a name="special-usage" class="anchor" href="#special-usage"><span class="octicon octicon-link"></span></a>Special Usage</h2>
+
+<h3>
+<a name="multi-insert" class="anchor" href="#multi-insert"><span class="octicon octicon-link"></span></a>Multi Insert</h3>
+
+<p>Insert multiple records into database table.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">multiInsert</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="nv">$keys</span> <span class="o">:</span> <span class="k">array</span><span class="p">,</span> <span class="nv">$data</span> <span class="o">:</span> <span class="k">array</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">multiInsert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">,</span> <span class="s1">'tel'</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'John Doe'</span><span class="p">,</span>
+            <span class="s1">'john@doe.com'</span><span class="p">,</span>
+            <span class="mi">12345678</span>
+        <span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'John Smith'</span><span class="p">,</span>
+            <span class="s1">'john@smith.com'</span><span class="p">,</span>
+            <span class="mi">11223344</span>
+        <span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'Jack Smith'</span><span class="p">,</span>
+            <span class="s1">'jack@smith.com'</span><span class="p">,</span>
+            <span class="mi">87654321</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+
+<h3>
+<a name="save" class="anchor" href="#save"><span class="octicon octicon-link"></span></a>Save</h3>
+
+<p>Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression.</p>
+
+<div class="highlight highlight-php"><pre><span class="nx">save</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="nv">$data</span> <span class="o">:</span> <span class="k">array</span><span class="p">)</span>
+</pre></div>
+
+<p>Example:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'id'</span>    <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">'name'</span>  <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
+    <span class="s1">'tel'</span>   <span class="o">=&gt;</span> <span class="mi">12345678</span>
+<span class="p">));</span>
+</pre></div>
+
+<h2>
+<a name="debug" class="anchor" href="#debug"><span class="octicon octicon-link"></span></a>Debug</h2>
+
+<p>You can activate the debug mode by using the following statement. It will show you all executed SQL queries and the parameter bindings.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">debug</span><span class="p">();</span>
+</pre></div>
+
+<p>It's also possible to change the debug style with the debugStyle attribute.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">debugStyle</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'border: 2px solid #d35400'</span><span class="p">,</span>
+    <span class="s1">'border-radius: 3px'</span><span class="p">,</span>
+    <span class="s1">'background-color: #e67e22'</span><span class="p">,</span>
+    <span class="s1">'margin: 5px 0 5px 0'</span><span class="p">,</span>
+    <span class="s1">'color: #ffffff'</span><span class="p">,</span>
+    <span class="s1">'padding: 5px'</span>
+<span class="p">);</span>
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/cvgellhorn/OneDB/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/cvgellhorn/OneDB/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/cvgellhorn/OneDB"></a> is maintained by <a href="https://github.com/cvgellhorn">cvgellhorn</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
