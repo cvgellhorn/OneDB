@@ -146,7 +146,7 @@ class OneDB
 			// Set character encoding
 			$this->_pdo->exec('SET CHARACTER SET ' . $config['charset']);
 		} catch (PDOException $e) {
-			throw new OneException($e->getMessage(), $e->getCode());
+			throw new OneException($e->getMessage());
 		}
 	}
 
@@ -243,7 +243,7 @@ class OneDB
 			if ($this->_debugMode) $this->dump($this->_stmt->queryString);
 			$this->_stmt->execute();
 		} catch (PDOException $e) {
-			throw new OneException('PDO Mysql execution error: ' . $e->getMessage(), $e->getCode());
+			throw new OneException('PDO Mysql execution error: ' . $e->getMessage());
 		}
 
 		return $this->_stmt;
@@ -423,7 +423,7 @@ class OneDB
 			/*** @var $result PDOStatement */
 			$result = $this->_pdo->query($sql);
 		} catch (PDOException $e) {
-			throw new OneException('PDO Mysql statement error: ' . $e->getMessage(), $e->getCode());
+			throw new OneException('PDO Mysql statement error: ' . $e->getMessage());
 		}
 
 		$columnCount = $result->columnCount();
