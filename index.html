@@ -294,24 +294,24 @@
 
 <div class="highlight highlight-php"><pre><span class="k">try</span> <span class="p">{</span>
     <span class="c1">// Start transaction</span>
-    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">beginTransaction</span><span class="p">();</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">beginTransaction</span><span class="p">();</span>
 
     <span class="c1">// Do stuff</span>
-    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
         <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Skywalker'</span>
     <span class="p">));</span>
-    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
         <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">3</span>
     <span class="p">));</span>
 
     <span class="c1">// Check transaction status, returns bool</span>
-    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">inTransaction</span><span class="p">();</span>
+    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">inTransaction</span><span class="p">();</span>
 
     <span class="c1">// Commit transaction if no error occurred</span>
-    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">commit</span><span class="p">();</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">commit</span><span class="p">();</span>
 <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">OneException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// Rollback on error</span>
-    <span class="nv">$db</span><span class="o">-&gt;</span><span class="na">rollBack</span><span class="p">();</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">rollBack</span><span class="p">();</span>
 <span class="p">}</span>
 </pre></div>
 
