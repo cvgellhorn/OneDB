@@ -12,7 +12,6 @@ OneDB is using the PDO extension and is based on three classes:
 
 All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 13 kb and all packed in a single PHP file.
 
-
 ##Getting started
 ```php
 // Include OneDB
@@ -40,7 +39,6 @@ $dbWrite = OneDB::getConnection('write', array(
 $dbWrite = OneDB::getConnection('write');
 ```
 
-
 ##Configuration
 You can also set the database host, port and charset.
 ```php
@@ -60,7 +58,6 @@ Default settings
 'port'    => '[default_mysql_port]'
 'charset' => 'utf8'
 ```
-
 
 ##Basic Usage
 ###Insert
@@ -138,7 +135,7 @@ $database->fetchAssoc('SELECT * FROM `user`', 'username');
 ```
 
 ###Fetch Row
-Retrieve the single row of the result set as an array.
+Retrieve a single row of the result set as an array.
 ```php
 fetchRow($sql : string)
 ```
@@ -171,6 +168,169 @@ $database->query('DELETE FROM `user` WHERE `id` = 1');
 
 // With result
 $result = $database->query('SELECT * FROM `user`');
+```
+
+###Last Insert ID
+Returns the ID of the last inserted row.
+```php
+lastInsertId()
+```
+
+Example:
+```php
+$database->lastInsertId();
+```
+
+
+##Advanced Usage
+###Expression
+You can also use database expressions in your statement, by using the OneExpr object.
+```php
+$lastInsertId = $database->insert('user', array(
+    'name'    => 'John Doe',
+    'email'   => 'john@doe.com',
+    'tel'     => 12345678,
+    'created' => new OneExpr('NOW()')
+));
+```
+
+###Truncate
+Truncate database table.
+```php
+truncate($table : string)
+```
+
+Example:
+```php
+$database->truncate('user');
+```
+
+###Drop
+Drop database table.
+```php
+drop($table : string)
+```
+
+Example:
+```php
+$database->drop('user');
+```
+
+###Describe
+Describe database table, returns the table attributes as array keys.
+```php
+describe($table : string)
+```
+
+Example:
+```php
+$database->describe('user');
+```
+
+###Transaction
+Run a database transaction.
+```php
+try {
+	// Start transaction
+	$db->beginTransaction();
+
+	// Do stuff
+	$db->insert('user', array(
+		'name' => 'Skywalker'
+	));
+	$db->delete('user', array(
+		'id = ?' => 3
+	));
+
+    // Check transaction status, returns bool
+    $status = $db->inTransaction();
+
+	// Commit transaction if no error occurred
+	$db->commit();
+} catch (OneException $e) {
+	// Rollback on error
+	$db->rollBack();
+}
+```
+
+###Quote
+Add quotes to the given value.
+```php
+quote($val : string)
+```
+
+Example:
+```php
+$database->quote($value);
+```
+
+###Backtick
+Add backticks to the given field name.
+```php
+btick($val : string)
+```
+
+Example:
+```php
+$database->btick('user');
+```
+
+###PDO
+Returns the current PDO object.
+```php
+getPDO()
+```
+
+Example:
+```php
+$database->getPDO();
+```
+
+
+##Special Usage
+###Multi Insert
+Insert multiple records into database table.
+```php
+multiInsert($table : string, $keys : array, $data : array)
+```
+
+Example:
+```php
+$database->multiInsert('user',
+    array('name', 'email', 'tel'),
+    array(
+    	array(
+        	'John Doe',
+            'john@doe.com',
+            12345678
+        ),
+        array(
+        	'John Smith',
+            'john@smith.com',
+            11223344
+        ),
+        array(
+        	'Jack Smith',
+            'jack@smith.com',
+            87654321
+        )
+	)
+);
+```
+
+###Save
+Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression.
+```php
+save($table : string, $data : array)
+```
+Example:
+```php
+$database->save('user', array(
+	'id'	=> 1,
+    'name'  => 'John Doe',
+    'email' => 'john@doe.com',
+    'tel'   => 12345678
+));
 ```
 
 
