@@ -157,7 +157,7 @@ $database->fetchOne('SELECT `username` FROM `user` WHERE `id` = 1');
 ```
 
 ###Query
-Send a SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.
+Send an SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.
 ```php
 query($sql : string)
 ```
@@ -319,13 +319,13 @@ $database->multiInsert('user',
 ```
 
 ###Save
-Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression.
+Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression. Returns the ID of the last inserted or updated row.
 ```php
 save($table : string, $data : array)
 ```
 Example:
 ```php
-$database->save('user', array(
+$id = $database->save('user', array(
 	'id'	=> 1,
     'name'  => 'John Doe',
     'email' => 'john@doe.com',

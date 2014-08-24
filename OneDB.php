@@ -512,7 +512,7 @@ class OneDB
 	 *
 	 * @param string $table DB table name
 	 * @param array $data Data to insert or update
-	 * @return int
+	 * @return int ID of the last inserted or updated row
 	 */
 	public function save($table, $data)
 	{
