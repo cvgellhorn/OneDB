@@ -206,7 +206,7 @@
 <h3>
 <a name="query" class="anchor" href="#query"><span class="octicon octicon-link"></span></a>Query</h3>
 
-<p>Send a SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.</p>
+<p>Send an SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.</p>
 
 <div class="highlight highlight-php"><pre><span class="nx">query</span><span class="p">(</span><span class="nv">$sql</span> <span class="o">:</span> <span class="nx">string</span><span class="p">)</span>
 </pre></div>
@@ -392,14 +392,14 @@
 <h3>
 <a name="save" class="anchor" href="#save"><span class="octicon octicon-link"></span></a>Save</h3>
 
-<p>Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression.</p>
+<p>Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression. Returns the ID of the last inserted or updated row.</p>
 
 <div class="highlight highlight-php"><pre><span class="nx">save</span><span class="p">(</span><span class="nv">$table</span> <span class="o">:</span> <span class="nx">string</span><span class="p">,</span> <span class="nv">$data</span> <span class="o">:</span> <span class="k">array</span><span class="p">)</span>
 </pre></div>
 
 <p>Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$id</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">'id'</span>    <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">'name'</span>  <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
     <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
