@@ -12,14 +12,14 @@ class OneDB
 	 *
 	 * @var OneDB
 	 */
-	private static $_instance = null;
+	protected static $_instance = null;
 
 	/**
 	 * Collection of active database connections
 	 *
 	 * @var array of OneDB connections
 	 */
-	private static $_connections = array();
+	protected static $_connections = array();
 
 	/**
 	 * PDO object
@@ -110,7 +110,7 @@ class OneDB
 	 * @return OneDB
 	 * @throws OneException
 	 */
-	private static function _create($config)
+	protected static function _create($config)
 	{
 		if (!empty($config)) {
 			return new self($config);
@@ -124,7 +124,7 @@ class OneDB
 	 *
 	 * @throws OneException
 	 */
-	private function __construct($config)
+	protected function __construct($config)
 	{
 		try {
 			if (!extension_loaded('pdo_mysql')) {
@@ -157,7 +157,7 @@ class OneDB
 	 * @return array Matched connection configs
 	 * @throws OneException
 	 */
-	private function _prepareConfig($config)
+	protected function _prepareConfig($config)
 	{
 		$config = array_merge($this->_config, $config);
 		foreach ($config as $key => $val) {
@@ -186,7 +186,7 @@ class OneDB
 	 * @param string $sql SQL statement
 	 * @return OneDB
 	 */
-	private function _prepare($sql)
+	protected function _prepare($sql)
 	{
 		$this->_stmt = $this->_pdo->prepare($sql);
 		return $this;
@@ -198,7 +198,7 @@ class OneDB
 	 * @param array $where Where conditions
 	 * @param string $query Query string
 	 */
-	private function _buildWhere(&$where, &$query)
+	protected function _buildWhere(&$where, &$query)
 	{
 		if (!empty($where)) {
 			$expr = array();
@@ -219,7 +219,7 @@ class OneDB
 	 * @param array $data SQL query params
 	 * @return OneDB
 	 */
-	private function _bindParams($data)
+	protected function _bindParams($data)
 	{
 		if ($this->_debugMode) $this->dump(print_r($data, true));
 
@@ -237,7 +237,7 @@ class OneDB
 	 * @return PDOStatement
 	 * @throws OneException
 	 */
-	private function _execute()
+	protected function _execute()
 	{
 		try {
 			if ($this->_debugMode) $this->dump($this->_stmt->queryString);
