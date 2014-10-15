@@ -14,8 +14,8 @@ All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You 
 
 ###Server Requirements:
 
-* <b>PHP >= 5.4</b>
-* <b>PDO_MYSQL extension</b>
+* PHP >= 5.4
+* PDO_MYSQL extension
 
 ##Getting started
 ```php
