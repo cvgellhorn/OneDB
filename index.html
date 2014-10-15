@@ -57,22 +57,22 @@
 <span class="k">require_once</span> <span class="s1">'OneDB.php'</span><span class="p">;</span>
 
 <span class="c1">// Create OneDB instance and have fun</span>
-<span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+<span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="p">[</span>
     <span class="s1">'database'</span>  <span class="o">=&gt;</span> <span class="s1">'application'</span><span class="p">,</span>
     <span class="s1">'user'</span>      <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
     <span class="s1">'password'</span>  <span class="o">=&gt;</span> <span class="s1">'admin123#'</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 
 <span class="c1">// After initializing, you can always get the current instance with</span>
 <span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">();</span>
 
 
 <span class="c1">// Or create a new connection by name (for multiple connections)</span>
-<span class="nv">$dbWrite</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">getConnection</span><span class="p">(</span><span class="s1">'write'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+<span class="nv">$dbWrite</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">getConnection</span><span class="p">(</span><span class="s1">'write'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'database'</span>  <span class="o">=&gt;</span> <span class="s1">'application'</span><span class="p">,</span>
     <span class="s1">'user'</span>      <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
     <span class="s1">'password'</span>  <span class="o">=&gt;</span> <span class="s1">'admin123#'</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 
 <span class="c1">// Reload connection again later</span>
 <span class="nv">$dbWrite</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">getConnection</span><span class="p">(</span><span class="s1">'write'</span><span class="p">);</span>
@@ -83,14 +83,14 @@
 
 <p>You can also set the database host, port and charset.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$database</span> <span class="o">=</span> <span class="nx">OneDB</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="p">[</span>
     <span class="s1">'host'</span>      <span class="o">=&gt;</span> <span class="s1">'sql.mydomain.com'</span><span class="p">,</span>
     <span class="s1">'port'</span>      <span class="o">=&gt;</span> <span class="s1">'3307'</span><span class="p">,</span>
     <span class="s1">'charset'</span>   <span class="o">=&gt;</span> <span class="s1">'utf16'</span><span class="p">,</span>
     <span class="s1">'database'</span>  <span class="o">=&gt;</span> <span class="s1">'application'</span><span class="p">,</span>
     <span class="s1">'user'</span>      <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
     <span class="s1">'password'</span>  <span class="o">=&gt;</span> <span class="s1">'admin123#'</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <p>Default settings</p>
@@ -113,11 +113,11 @@
 
 <p>Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$lastInsertId</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$lastInsertId</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'name'</span>  <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
     <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
     <span class="s1">'tel'</span>   <span class="o">=&gt;</span> <span class="mi">12345678</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <h3>
@@ -130,16 +130,15 @@
 
 <p>Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span>
-    <span class="s1">'user'</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span>
+    <span class="p">[</span>
         <span class="s1">'name'</span>   <span class="o">=&gt;</span> <span class="s1">'John Smith'</span><span class="p">,</span>
         <span class="s1">'email'</span>  <span class="o">=&gt;</span> <span class="s1">'john@smith.com'</span><span class="p">,</span>
         <span class="s1">'tel'</span>    <span class="o">=&gt;</span> <span class="mi">87654321</span>
-    <span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
         <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">23</span>
-    <span class="p">)</span>
+    <span class="p">]</span>
 <span class="p">);</span>
 </pre></div>
 
@@ -153,9 +152,9 @@
 
 <p>Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">23</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <h3>
@@ -247,12 +246,12 @@
 
 <p>You can also use database expressions in your statement, by using the OneExpr object.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$lastInsertId</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$lastInsertId</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'name'</span>    <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
     <span class="s1">'email'</span>   <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
     <span class="s1">'tel'</span>     <span class="o">=&gt;</span> <span class="mi">12345678</span><span class="p">,</span>
     <span class="s1">'created'</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">OneExpr</span><span class="p">(</span><span class="s1">'NOW()'</span><span class="p">)</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <h3>
@@ -304,12 +303,12 @@
     <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">beginTransaction</span><span class="p">();</span>
 
     <span class="c1">// Do stuff</span>
-    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">insert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span>
         <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Skywalker'</span>
-    <span class="p">));</span>
-    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="p">]);</span>
+    <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span>
         <span class="s1">'id = ?'</span> <span class="o">=&gt;</span> <span class="mi">3</span>
-    <span class="p">));</span>
+    <span class="p">]);</span>
 
     <span class="c1">// Check transaction status, returns bool</span>
     <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">inTransaction</span><span class="p">();</span>
@@ -375,24 +374,24 @@
 <p>Example:</p>
 
 <div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">multiInsert</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span>
-    <span class="k">array</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">,</span> <span class="s1">'tel'</span><span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span>
-        <span class="k">array</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">,</span> <span class="s1">'tel'</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="p">[</span>
             <span class="s1">'John Doe'</span><span class="p">,</span>
             <span class="s1">'john@doe.com'</span><span class="p">,</span>
             <span class="mi">12345678</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
             <span class="s1">'John Smith'</span><span class="p">,</span>
             <span class="s1">'john@smith.com'</span><span class="p">,</span>
             <span class="mi">11223344</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
             <span class="s1">'Jack Smith'</span><span class="p">,</span>
             <span class="s1">'jack@smith.com'</span><span class="p">,</span>
             <span class="mi">87654321</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
 <span class="p">);</span>
 </pre></div>
 
@@ -406,12 +405,12 @@
 
 <p>Example:</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$id</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$id</span> <span class="o">=</span> <span class="nv">$database</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">'id'</span>    <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">'name'</span>  <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
     <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'john@doe.com'</span><span class="p">,</span>
     <span class="s1">'tel'</span>   <span class="o">=&gt;</span> <span class="mi">12345678</span>
-<span class="p">));</span>
+<span class="p">]);</span>
 </pre></div>
 
 <h2>
@@ -424,14 +423,14 @@
 
 <p>It's also possible to change the debug style with the debugStyle attribute.</p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">debugStyle</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$database</span><span class="o">-&gt;</span><span class="na">debugStyle</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">'border: 2px solid #d35400'</span><span class="p">,</span>
     <span class="s1">'border-radius: 3px'</span><span class="p">,</span>
     <span class="s1">'background-color: #e67e22'</span><span class="p">,</span>
     <span class="s1">'margin: 5px 0 5px 0'</span><span class="p">,</span>
     <span class="s1">'color: #ffffff'</span><span class="p">,</span>
     <span class="s1">'padding: 5px'</span>
-<span class="p">);</span>
+<span class="p">];</span>
 </pre></div>
         </section>
 
