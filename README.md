@@ -4,13 +4,18 @@ OneDB [![Build Status](https://travis-ci.org/cvgellhorn/OneDB.svg?branch=master)
 > A lightweight/single file PHP database framework
 
 ##Overview
-OneDB is using the PDO extension and is based on three classes:
+OneDB is using the PDO_MYSQL extension and is based on three classes:
 
 * <b>OneDB</b> - Main database framework
 * <b>OneExpr</b> - Database expression
 * <b>OneException</b> - Exception
 
 All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 13 kb and all packed in a single PHP file.
+
+###Server Requirements:
+
+* <b>PHP >= 5.4</b>
+* <b>PDO_MYSQL extension</b>
 
 ##Getting started
 ```php
