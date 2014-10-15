@@ -23,22 +23,22 @@ All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You 
 require_once 'OneDB.php';
 
 // Create OneDB instance and have fun
-$database = OneDB::load(array(
+$database = OneDB::load([
     'database'  => 'application',
     'user'      => 'root',
     'password'  => 'admin123#'
-));
+]);
 
 // After initializing, you can always get the current instance with
 $database = OneDB::load();
 
 
 // Or create a new connection by name (for multiple connections)
-$dbWrite = OneDB::getConnection('write', array(
+$dbWrite = OneDB::getConnection('write', [
     'database'  => 'application',
     'user'      => 'root',
     'password'  => 'admin123#'
-));
+]);
 
 // Reload connection again later
 $dbWrite = OneDB::getConnection('write');
@@ -47,14 +47,14 @@ $dbWrite = OneDB::getConnection('write');
 ##Configuration
 You can also set the database host, port and charset.
 ```php
-$database = OneDB::load(array(
+$database = OneDB::load([
 	'host'      => 'sql.mydomain.com',
     'port'      => '3307',
     'charset'   => 'utf16',
     'database'  => 'application',
     'user'      => 'root',
     'password'  => 'admin123#'
-));
+]);
 ```
 
 Default settings
@@ -74,11 +74,11 @@ insert($table : string, $data : array)
 
 Example:
 ```php
-$lastInsertId = $database->insert('user', array(
+$lastInsertId = $database->insert('user', [
 	'name'  => 'John Doe',
     'email' => 'john@doe.com',
     'tel'   => 12345678
-));
+]);
 ```
 
 ###Update
@@ -90,16 +90,15 @@ update($table : string, $data : array, [$where : array])
 
 Example:
 ```php
-$database->update(
-	'user',
-    array(
+$database->update('user',
+    [
 		'name'   => 'John Smith',
     	'email'  => 'john@smith.com',
     	'tel'    => 87654321
-    ),
-    array(
+    ],
+    [
     	'id = ?' => 23
-    )
+    ]
 );
 ```
 
@@ -112,9 +111,9 @@ delete($table : string, [$where : array])
 
 Example:
 ```php
-$database->delete('user', array(
+$database->delete('user', [
 	'id = ?' => 23
-));
+]);
 ```
 
 ###Fetch All
@@ -191,12 +190,12 @@ $database->lastInsertId();
 ###Expression
 You can also use database expressions in your statement, by using the OneExpr object.
 ```php
-$lastInsertId = $database->insert('user', array(
+$lastInsertId = $database->insert('user', [
     'name'    => 'John Doe',
     'email'   => 'john@doe.com',
     'tel'     => 12345678,
     'created' => new OneExpr('NOW()')
-));
+]);
 ```
 
 ###Truncate
@@ -240,12 +239,12 @@ try {
 	$database->beginTransaction();
 
 	// Do stuff
-	$database->insert('user', array(
+	$database->insert('user', [
 		'name' => 'Skywalker'
-	));
-	$database->delete('user', array(
+	]);
+	$database->delete('user', [
 		'id = ?' => 3
-	));
+	]);
 
     // Check transaction status, returns bool
     $status = $database->inTransaction();
@@ -302,24 +301,24 @@ multiInsert($table : string, $keys : array, $data : array)
 Example:
 ```php
 $database->multiInsert('user',
-    array('name', 'email', 'tel'),
-    array(
-    	array(
+    ['name', 'email', 'tel'],
+    [
+    	[
         	'John Doe',
             'john@doe.com',
             12345678
-        ),
-        array(
+        ],
+        [
         	'John Smith',
             'john@smith.com',
             11223344
         ),
-        array(
+        [
         	'Jack Smith',
             'jack@smith.com',
             87654321
-        )
-	)
+        ]
+	]
 );
 ```
 
@@ -330,12 +329,12 @@ save($table : string, $data : array)
 ```
 Example:
 ```php
-$id = $database->save('user', array(
+$id = $database->save('user', [
 	'id'	=> 1,
     'name'  => 'John Doe',
     'email' => 'john@doe.com',
     'tel'   => 12345678
-));
+]);
 ```
 
 
@@ -347,12 +346,12 @@ $database->debug();
 
 It's also possible to change the debug style with the debugStyle attribute.
 ```php
-$database->debugStyle = array(
+$database->debugStyle = [
 	'border: 2px solid #d35400',
 	'border-radius: 3px',
 	'background-color: #e67e22',
 	'margin: 5px 0 5px 0',
 	'color: #ffffff',
 	'padding: 5px'
-);
+];
 ```
