@@ -19,7 +19,7 @@ class OneDB
 	 *
 	 * @var array of OneDB connections
 	 */
-	protected static $_connections = array();
+	protected static $_connections = [];
 
 	/**
 	 * PDO object
@@ -47,28 +47,28 @@ class OneDB
 	 *
 	 * @var array
 	 */
-	protected $_config = array(
+	protected $_config = [
 		'pdo_type'  => 'mysql',
 		'host'      => 'localhost',
 		'charset'   => 'utf8',
 		'database'  => null,
 		'user'      => null,
 		'password'  => null
-	);
+	];
 
 	/**
 	 * Debug style
 	 *
 	 * @var array
 	 */
-	public $debugStyle = array(
+	public $debugStyle = [
 		'border: 2px solid #d35400',
 		'border-radius: 3px',
 		'background-color: #e67e22',
 		'margin: 5px 0 5px 0',
 		'color: #ffffff',
 		'padding: 5px'
-	);
+	];
 
 	/**
 	 * Single pattern implementation
@@ -76,7 +76,7 @@ class OneDB
 	 * @param array $config Connection configs
 	 * @return OneDB
 	 */
-	public static function load($config = array())
+	public static function load($config = [])
 	{
 		if (null === self::$_instance) {
 			self::$_instance = self::_create($config);
@@ -91,7 +91,7 @@ class OneDB
 	 * @param array $config Connection configs
 	 * @return OneDB
 	 */
-	public static function getConnection($name = null, $config = array())
+	public static function getConnection($name = null, $config = [])
 	{
 		if (null === $name) {
 			return self::_create($config);
@@ -166,11 +166,11 @@ class OneDB
 			}
 		}
 
-		$dsn = array(
+		$dsn = [
 			'host='     . $config['host'],
 			'dbname='   . $config['database'],
 			'charset='  . $config['charset']
-		);
+		];
 
 		if (isset($config['port'])) {
 			$dsn[] = 'port=' . $config['port'];
@@ -201,7 +201,7 @@ class OneDB
 	protected function _buildWhere(&$where, &$query)
 	{
 		if (!empty($where)) {
-			$expr = array();
+			$expr = [];
 			foreach ($where as $key => $val) {
 				if ($val instanceof OneExpr) {
 					$expr[] = str_replace('?', $val, $key);
@@ -376,7 +376,7 @@ class OneDB
 		// Raw result data
 		$data = $this->_prepare($sql)->_execute()->fetchAll(PDO::FETCH_ASSOC);
 
-		$result = array();
+		$result = [];
 		if (!empty($data)) {
 			$key = ($key && isset($data[0][$key])) ? $key : key($data[0]);
 			foreach ($data as $d) {
@@ -459,8 +459,8 @@ class OneDB
 	 */
 	public function insert($table, $data)
 	{
-		$keys = array();
-		$values = array();
+		$keys = [];
+		$values = [];
 		foreach ($data as $key => $val) {
 			$keys[] = $this->btick($key);
 			if ($val instanceof OneExpr) {
@@ -492,7 +492,7 @@ class OneDB
 			$key = $this->btick($key);
 		}
 
-		$values = array();
+		$values = [];
 		foreach ($data as $vals) {
 			foreach ($vals as &$val) {
 				$val = $this->quote($val);
@@ -516,9 +516,9 @@ class OneDB
 	 */
 	public function save($table, $data)
 	{
-		$keys = array();
-		$values = array();
-		$updateVals = array();
+		$keys = [];
+		$values = [];
+		$updateVals = [];
 
 		foreach ($data as $key => $val) {
 			$keys[] = $field = $this->btick($key);
@@ -550,9 +550,9 @@ class OneDB
 	 * @param array $data Data to update
 	 * @param array $where Update condition
 	 */
-	public function update($table, $data, $where = array())
+	public function update($table, $data, $where = [])
 	{
-		$values = array();
+		$values = [];
 		foreach ($data as $key => $val) {
 			if ($val instanceof OneExpr) {
 				$values[] = $this->btick($key) . ' = ' . $val;
@@ -579,7 +579,7 @@ class OneDB
 	 * @param string $table DB table name
 	 * @param array $where Delete condition
 	 */
-	public function delete($table, $where = array())
+	public function delete($table, $where = [])
 	{
 		$query = 'DELETE FROM ' . $this->btick($table);
 		$this->_buildWhere($where, $query);
