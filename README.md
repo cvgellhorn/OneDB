@@ -3,7 +3,7 @@ OneDB [![Build Status](https://travis-ci.org/cvgellhorn/OneDB.svg?branch=master)
 
 > A lightweight/single file PHP database framework
 
-##Overview
+## Overview
 OneDB is using the PDO_MYSQL extension and is based on three classes:
 
 * <b>OneDB</b> - Main database framework
@@ -12,12 +12,12 @@ OneDB is using the PDO_MYSQL extension and is based on three classes:
 
 All tests are based on the [PHPUnit](http://phpunit.de/) testing framework. You can easily set up your own phpunit.xml, for local unit testing. It's also very lightweight, only around 13 kb and all packed in a single PHP file.
 
-###Server Requirements:
+### Server Requirements:
 
 * PHP >= 5.4
 * PDO_MYSQL extension
 
-##Getting started
+## Getting started
 ```php
 // Include OneDB
 require_once 'OneDB.php';
@@ -44,7 +44,7 @@ $dbWrite = OneDB::getConnection('write', [
 $dbWrite = OneDB::getConnection('write');
 ```
 
-##Configuration
+## Configuration
 You can also set the database host, port and charset.
 ```php
 $database = OneDB::load([
@@ -64,8 +64,8 @@ Default settings
 'charset' => 'utf8'
 ```
 
-##Basic Usage
-###Insert
+## Basic Usage
+### Insert
 Insert new records in table, returns LAST_INSERT_ID.
 
 ```php
@@ -81,7 +81,7 @@ $lastInsertId = $database->insert('user', [
 ]);
 ```
 
-###Update
+### Update
 Edit data in table. You can use any given operator in the WHERE clause to filter the records. The ? represents the placeholder for the given param.
 
 ```php
@@ -102,7 +102,7 @@ $database->update('user',
 );
 ```
 
-###Delete
+### Delete
 Remove data from table. Just as update, the ? represents the placeholder for the given param.
 
 ```php
@@ -116,7 +116,7 @@ $database->delete('user', [
 ]);
 ```
 
-###Fetch All
+### Fetch All
 Retrieve all the rows of the result set in one step as an array.
 ```php
 fetchAll($sql : string)
@@ -127,7 +127,7 @@ Example:
 $database->fetchAll('SELECT * FROM `user`');
 ```
 
-###Fetch Assoc
+### Fetch Assoc
 Retrieve all the rows of the result set in one step as an array, using the first column or the given key as the array index.
 ```php
 fetchAssoc($sql : string, [$key : string])
@@ -138,7 +138,7 @@ Example:
 $database->fetchAssoc('SELECT * FROM `user`', 'username');
 ```
 
-###Fetch Row
+### Fetch Row
 Retrieve a single row of the result set as an array.
 ```php
 fetchRow($sql : string)
@@ -149,7 +149,7 @@ Example:
 $database->fetchRow('SELECT * FROM `user` WHERE `id` = 1');
 ```
 
-###Fetch One
+### Fetch One
 Retrieve a single result value.
 ```php
 fetchOne($sql : string)
@@ -160,7 +160,7 @@ Example:
 $database->fetchOne('SELECT `username` FROM `user` WHERE `id` = 1');
 ```
 
-###Query
+### Query
 Send an SQL query. If there is a result, you will automatically get the matched result type: fetch all, fetch row or fetch one.
 ```php
 query($sql : string)
@@ -174,7 +174,7 @@ $database->query('DELETE FROM `user` WHERE `id` = 1');
 $result = $database->query('SELECT * FROM `user`');
 ```
 
-###Last Insert ID
+### Last Insert ID
 Returns the ID of the last inserted row.
 ```php
 lastInsertId()
@@ -186,8 +186,8 @@ $database->lastInsertId();
 ```
 
 
-##Advanced Usage
-###Expression
+## Advanced Usage
+### Expression
 You can also use database expressions in your statement, by using the OneExpr object.
 ```php
 $lastInsertId = $database->insert('user', [
@@ -198,7 +198,7 @@ $lastInsertId = $database->insert('user', [
 ]);
 ```
 
-###Truncate
+### Truncate
 Truncate database table.
 ```php
 truncate($table : string)
@@ -209,7 +209,7 @@ Example:
 $database->truncate('user');
 ```
 
-###Drop
+### Drop
 Drop database table.
 ```php
 drop($table : string)
@@ -220,7 +220,7 @@ Example:
 $database->drop('user');
 ```
 
-###Describe
+### Describe
 Describe database table, returns the table attributes as array keys.
 ```php
 describe($table : string)
@@ -231,7 +231,7 @@ Example:
 $database->describe('user');
 ```
 
-###Transaction
+### Transaction
 Run a database transaction.
 ```php
 try {
@@ -257,7 +257,7 @@ try {
 }
 ```
 
-###Quote
+### Quote
 Add quotes to the given value.
 ```php
 quote($val : string)
@@ -268,7 +268,7 @@ Example:
 $database->quote($value);
 ```
 
-###Backtick
+### Backtick
 Add backticks to the given field name.
 ```php
 btick($val : string)
@@ -279,7 +279,7 @@ Example:
 $database->btick('user');
 ```
 
-###PDO
+### PDO
 Returns the current PDO object.
 ```php
 getPDO()
@@ -291,8 +291,8 @@ $database->getPDO();
 ```
 
 
-##Special Usage
-###Multi Insert
+## Special Usage
+### Multi Insert
 Insert multiple records into database table.
 ```php
 multiInsert($table : string, $keys : array, $data : array)
@@ -322,7 +322,7 @@ $database->multiInsert('user',
 );
 ```
 
-###Save
+### Save
 Update data if exist, otherwise insert new data. Using the ON DUPLICATE KEY UPDATE expression. Returns the ID of the last inserted or updated row.
 ```php
 save($table : string, $data : array)
@@ -338,7 +338,7 @@ $id = $database->save('user', [
 ```
 
 
-##Debug
+## Debug
 You can activate the debug mode by using the following statement. It will show you all executed SQL queries and the parameter bindings.
 ```php
 $database->debug();
